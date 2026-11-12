@@ -1,0 +1,2 @@
+// PhoneItem.js
+module.exports = {};
