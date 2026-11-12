@@ -2,21 +2,19 @@ const express = require('express');
 const router = express.Router();
 
 const authRoutes = require('./authRoutes');
-const productRoutes = require('./productRoutes');
-const categoryRoutes = require('./categoryRoutes');
-const cartRoutes = require('./cartRoutes');
+const brandRoutes = require('./brandRoutes');
+const inventoryRoutes = require('./inventoryRoutes');
 const orderRoutes = require('./orderRoutes');
-const paymentRoutes = require('./paymentRoutes');
+const phoneRoutes = require('./phoneRoutes');
+const reportRoutes = require('./reportRoutes');
 
 router.use('/auth', authRoutes);
-router.use('/products', productRoutes);
-router.use('/categories', categoryRoutes);
-router.use('/cart', cartRoutes);
+router.use('/brands', brandRoutes);
+router.use('/inventory', inventoryRoutes);
 router.use('/orders', orderRoutes);
-router.use('/payments', paymentRoutes);
+router.use('/phones', phoneRoutes);
+router.use('/reports', reportRoutes);
 
-router.get('/health', (req, res) => {
-    res.status(200).json({ status: 'UP', timestamp: new Date().toISOString() });
-});
+router.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 module.exports = router;

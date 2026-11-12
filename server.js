@@ -1,17 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const compression = require('compression');
 require('dotenv').config();
 
-const routes = require('./src/routes');
+const routes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
-app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,7 +17,7 @@ app.use('/api', routes);
 
 app.get('/', (req, res) => {
     res.json({
-        name: 'src',
+        name: 'PhoneStore-API',
         version: '1.0.0',
         status: 'online',
         documentation: '/api/health'

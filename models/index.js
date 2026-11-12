@@ -1,42 +1,19 @@
-const db = require('../configs/db');
-
-const findAll = async (filters = {}) => {
-    const [rows] = await db.execute('SELECT * FROM indexs ORDER BY created_at DESC');
-    return rows;
-};
-
-const findById = async (id) => {
-    const [rows] = await db.execute('SELECT * FROM indexs WHERE id = ?', [id]);
-    return rows[0] || null;
-};
-
-const create = async (payload) => {
-    const keys = Object.keys(payload);
-    const values = Object.values(payload);
-    const placeholders = keys.map(() => '?').join(', ');
-    const sql = `INSERT INTO indexs (${keys.join(', ')}) VALUES (${placeholders})`;
-    await db.execute(sql, values);
-    return payload;
-};
-
-const update = async (id, payload) => {
-    const keys = Object.keys(payload);
-    const values = Object.values(payload);
-    const setClause = keys.map((key) => `${key} = ?`).join(', ');
-    const sql = `UPDATE indexs SET ${setClause} WHERE id = ?`;
-    await db.execute(sql, [...values, id]);
-    return { id, ...payload };
-};
-
-const deleteRecord = async (id) => {
-    const [result] = await db.execute('DELETE FROM indexs WHERE id = ?', [id]);
-    return result.affectedRows > 0;
-};
+const db = require('../config/database');
+const Brand = require('./Brand');
+const Customer = require('./Customer');
+const Order = require('./Order');
+const OrderItem = require('./OrderItem');
+const Phone = require('./Phone');
+const PhoneVariant = require('./PhoneVariant');
+const User = require('./User');
 
 module.exports = {
-    findAll,
-    findById,
-    create,
-    update,
-    delete: deleteRecord,
+  db,
+  Brand,
+  Customer,
+  Order,
+  OrderItem,
+  Phone,
+  PhoneVariant,
+  User
 };
