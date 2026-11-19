@@ -1,37 +1,16 @@
-const crypto = require('crypto');
-const orderModel = require('../models/orderModel');
+const { Order, OrderItem } = require('../models');
 
-const findAll = async (filters) => {
-    return orderModel.findAll(filters);
-};
-
-const findById = async (id) => {
-    return orderModel.findById(id);
-};
-
-const create = async (payload) => {
-    const id = 'ord_' + crypto.randomUUID().slice(0, 8);
-    return orderModel.create({ id, ...payload });
-};
-
-const update = async (id, payload) => {
-    const existing = await orderModel.findById(id);
-    if (!existing) {
-        const error = new Error('Order not found');
-        error.status = 404;
-        throw error;
+const orderService = {
+  createOrder: async (orderData, items) => {
+    const order = await Order.create(orderData);
+    for (const item of items) {
+      await OrderItem.create({ ...item, orderId: order.id });
     }
-    return orderModel.update(id, payload);
+    return order;
+  },
+  getOrderById: async (id) => {
+    return await Order.findByPk(id, { include: [OrderItem] });
+  }
 };
 
-const deleteItem = async (id) => {
-    return orderModel.delete(id);
-};
-
-module.exports = {
-    findAll,
-    findById,
-    create,
-    update,
-    delete: deleteItem,
-};
+module.exports = orderService;
